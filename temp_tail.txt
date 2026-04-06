@@ -1,0 +1,10 @@
+function MetricCard({ label, value, color }) {
+  return (
+    <div className={`metric-box color-${color}`}>
+      <span className="metric-label">{label}</span>
+      <strong className="metric-value">{value}</strong>
+    </div>
+  );
+}
+
+export default App;
