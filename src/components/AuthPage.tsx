@@ -146,7 +146,7 @@ export default function AuthPage() {
                 }
               >
                 <option value="user">משתמש לומד</option>
-                <option value="admin">מנהל (Admin)</option>
+                <option value="admin" disabled>מנהל (Admin) — זמין בקרוב</option>
               </select>
             </div>
             <button className="btn-primary" type="submit" disabled={isLoading}>
