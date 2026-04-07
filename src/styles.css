@@ -608,7 +608,8 @@ input, button, select, textarea {
   margin-top: 1rem;
 }
 
-
+/* Mobile Bottom Nav */
+.mobile-bottom-nav {
   display: none;
   position: fixed;
   bottom: 0;
