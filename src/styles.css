@@ -29,6 +29,8 @@
   
   --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
   --shadow-md: 0 6px 20px rgba(0,0,0,0.06);
+
+  --c-indigo: #6366f1;
 }
 
 /* Base Rest */
@@ -1493,4 +1495,170 @@ input, button, select, textarea {
 }
 
 .sm-stat-icon { font-size: 1.2rem; }
+
+/* ══════════════════════════════════════════
+   MOBILE RESPONSIVE  (≤ 768px)
+══════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* ── Navbar: hide desktop links, show bottom nav ── */
+  .nav-links.desktop-links {
+    display: none;
+  }
+
+  .mobile-bottom-nav {
+    display: flex;
+  }
+
+  .nav-container {
+    padding: 0.6rem 1rem;
+  }
+
+  /* extra bottom padding so content isn't hidden under bottom nav */
+  .main-content {
+    padding: 1.25rem 1rem 5.5rem;
+  }
+
+  /* ── View header wraps on small screens ── */
+  .view-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .view-header h2 {
+    font-size: 1.4rem;
+  }
+
+  /* ── Stats row: 2 columns on mobile ── */
+  .stats-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .metric-box {
+    padding: 1rem;
+  }
+
+  .metric-value {
+    font-size: 1.6rem;
+  }
+
+  /* ── Cards grid: single column ── */
+  .cards-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .content-card {
+    padding: 1.25rem;
+  }
+
+  /* ── Library grid: single column ── */
+  .library-grid {
+    grid-template-columns: 1fr;
+    max-height: none;
+  }
+
+  /* ── Games hub: single column ── */
+  .games-hub-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .game-hub-card {
+    padding: 1rem 1.25rem;
+  }
+
+  .game-hub-icon {
+    font-size: 2rem;
+  }
+
+  .game-hub-info p {
+    font-size: 0.82rem;
+  }
+
+  /* ── Capture layout: stack vertically ── */
+  .capture-layout {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .capture-word input.gigantic {
+    font-size: 1.3rem;
+  }
+
+  /* ── Training ── */
+  .training-word {
+    font-size: 1.9rem;
+  }
+
+  .action-btn {
+    font-size: 1rem;
+    padding: 0.85rem;
+  }
+
+  .done-stats {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .done-stat {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+  }
+
+  /* Training summary table: hide time column */
+  .summary-item {
+    grid-template-columns: 1.5rem 1fr 1.5fr;
+  }
+  .summary-time {
+    display: none;
+  }
+
+  /* ── Speed Match: 2 columns instead of 4 ── */
+  .sm-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* ── Admin table: allow horizontal scroll ── */
+  .table-responsive {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 0.6rem 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  /* ── Auth card padding ── */
+  .auth-card {
+    padding: 2rem 1.25rem;
+  }
+
+  /* ── install button smaller ── */
+  .btn-install {
+    padding: 0.35rem 0.65rem;
+    font-size: 0.78rem;
+  }
+
+  /* ── Library header stacks ── */
+  .library-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  /* ── input split row stacks ── */
+  .input-group.split {
+    flex-direction: column;
+  }
+  .input-group.split select {
+    width: 100%;
+  }
+}
 
