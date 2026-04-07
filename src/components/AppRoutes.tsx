@@ -10,6 +10,7 @@ import Admin from "../pages/Admin/Admin";
 import Games from "../pages/Games/Games";
 import SnakeGame from "../pages/Games/SnakeGame";
 import SpeedMatch from "../pages/Games/SpeedMatch";
+import About from "../pages/About/About";
 
 export default function AppRoutes() {
   const isAdmin = useAppStore((s) => s.session?.role === "admin");
@@ -90,6 +91,14 @@ export default function AppRoutes() {
         }
       />
       <Route path="*" element={<Navigate to="/" replace />} />
+      <Route
+        path="/about"
+        element={
+          <ProtectedRoute>
+            <About />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
 }
