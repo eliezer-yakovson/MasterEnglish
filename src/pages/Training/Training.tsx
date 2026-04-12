@@ -13,6 +13,7 @@ export default function Training() {
   const queryClient = useQueryClient();
 
   const [trainingCount, setTrainingCount] = useState(6);
+  const [direction, setDirection] = useState<"en-he" | "he-en">("en-he");
   const [trainingSession, setTrainingSession] = useState<TrainingSession | null>(null);
   const [trainingIndex, setTrainingIndex] = useState(0);
   const [phase, setPhase] = useState<Phase>("idle");
@@ -24,6 +25,11 @@ export default function Training() {
   const answerMutation = useSubmitTrainingResult();
 
   const currentItem: TrainingItem | null = trainingSession?.queue?.[trainingIndex] ?? null;
+
+  // question = what's shown; answer = what's hidden and then revealed
+  const questionText = currentItem ? (direction === "en-he" ? currentItem.word : currentItem.translation) : "";
+  const answerText   = currentItem ? (direction === "en-he" ? currentItem.translation : currentItem.word) : "";
+  const speakWord    = currentItem?.word ?? "";
 
   // ── 1. התחלת סשן + טעינת מילים ────────────────────────────────────────
   function handleTrainingStart() {
@@ -120,7 +126,32 @@ export default function Training() {
           {/* ── IDLE – הגדרות + כפתור התחל ── */}
           {phase === "idle" && (
             <div className="training-controls">
-              <label>
+
+              {/* כיוון תרגול */}
+              <div className="direction-selector">
+                <p className="direction-selector-label">כיוון השאלה — מה יוצג ומה תצטרך לזכור?</p>
+                <div className="direction-options">
+                  <button
+                    type="button"
+                    className={`direction-btn${direction === "en-he" ? " active" : ""}`}
+                    onClick={() => setDirection("en-he")}
+                  >
+                    <span className="dir-langs">English → עברית</span>
+                    <span className="dir-hint">רואים אנגלית, זוכרים עברית</span>
+                  </button>
+                  <button
+                    type="button"
+                    className={`direction-btn${direction === "he-en" ? " active" : ""}`}
+                    onClick={() => setDirection("he-en")}
+                  >
+                    <span className="dir-langs">עברית → English</span>
+                    <span className="dir-hint">רואים עברית, זוכרים אנגלית</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* כמות מילים */}
+              <label className="training-count-label">
                 <span>מספר מילים לאימון:</span>
                 <select
                   value={trainingCount}
@@ -133,6 +164,7 @@ export default function Training() {
                   <option value={20}>20 מילים</option>
                 </select>
               </label>
+
               <button
                 className="btn-primary"
                 onClick={handleTrainingStart}
@@ -151,37 +183,37 @@ export default function Training() {
             </div>
           )}
 
-          {/* ── RECALL – הצגת מילה בלבד, תרגום מוסתר ── */}
+          {/* ── RECALL – הצגת שאלה בלבד, תשובה מוסתרת ── */}
           {phase === "recall" && currentItem && (
             <div className="active-training">
               <div className="progress-badge">
                 מילה {trainingIndex + 1} מתוך {trainingSession!.queue.length}
               </div>
               <div className="training-word-row">
-                <h2 className="training-word">{currentItem.word}</h2>
-                <SpeakButton word={currentItem.word} size="lg" />
+                <h2 className="training-word">{questionText}</h2>
+                {direction === "en-he" && <SpeakButton word={speakWord} size="lg" />}
               </div>
               <div className="training-translation-hidden">
-                <span>נסה לזכור את התרגום...</span>
+                <span>{direction === "en-he" ? "נסה לזכור את התרגום העברי..." : "נסה לזכור את המילה באנגלית..."}</span>
               </div>
               <button className="btn-reveal" onClick={handleReveal}>
-                הצג תרגום
+                {direction === "en-he" ? "הצג תרגום" : "הצג מילה באנגלית"}
               </button>
             </div>
           )}
 
-          {/* ── REVEALED – מילה + תרגום + כפתורי תשובה ── */}
+          {/* ── REVEALED – שאלה + תשובה + כפתורי תשובה ── */}
           {phase === "revealed" && currentItem && (
             <div className="active-training revealed">
               <div className="progress-badge">
                 מילה {trainingIndex + 1} מתוך {trainingSession!.queue.length}
               </div>
               <div className="training-word-row">
-                <h2 className="training-word">{currentItem.word}</h2>
-                <SpeakButton word={currentItem.word} size="lg" />
+                <h2 className="training-word">{questionText}</h2>
+                <SpeakButton word={speakWord} size="lg" />
               </div>
               <p className="training-desc training-translation-show">
-                {currentItem.translation}
+                {answerText}
               </p>
               <div className="training-actions">
                 <button

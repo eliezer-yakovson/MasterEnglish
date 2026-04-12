@@ -1,12 +1,16 @@
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useEnrichAndCheck, useCaptureWord } from "../../hooks/useQueries";
 import type { CaptureForm, CapturePreview } from "../../types";
 import SpeakButton from "../../components/SpeakButton";
 
-const initialCaptureForm: CaptureForm = { word: "", context: "", lang: "he" };
-
 export default function Capture() {
-  const [captureForm, setCaptureForm] = useState<CaptureForm>(initialCaptureForm);
+  const [searchParams] = useSearchParams();
+  const [captureForm, setCaptureForm] = useState<CaptureForm>({
+    word: searchParams.get("word") ?? "",
+    context: "",
+    lang: "he",
+  });
   const [capturePreview, setCapturePreview] = useState<CapturePreview | null>(null);
 
   const enrichMutation = useEnrichAndCheck();

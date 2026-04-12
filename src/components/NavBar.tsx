@@ -157,11 +157,11 @@ export default function NavBar() {
             <button className={active("/progress")} onClick={() => navigate("/progress")}>
               📊<br /><small>התקדמות</small>
             </button>
+            <button className={active("/capture")} onClick={() => navigate("/capture")}>
+              🔍<br /><small>לכידה</small>
+            </button>
             <button className={active("/games")} onClick={() => navigate("/games")}>
               🎮<br /><small>משחקים</small>
-            </button>
-            <button className={active("/about")} onClick={() => navigate("/about")}>
-              ℹ️<br /><small>אודות</small>
             </button>
           </>
         )}

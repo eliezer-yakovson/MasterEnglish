@@ -14,6 +14,8 @@ export default function AuthPage() {
   const [loginForm, setLoginForm] = useState<LoginForm>(initialLoginForm);
   const [registerForm, setRegisterForm] = useState<RegisterForm>(initialRegisterForm);
   const [isLoading, setIsLoading] = useState(false);
+  const [showLoginPwd, setShowLoginPwd] = useState(false);
+  const [showRegisterPwd, setShowRegisterPwd] = useState(false);
 
   async function handleLogin(event: React.FormEvent) {
     event.preventDefault();
@@ -91,13 +93,23 @@ export default function AuthPage() {
             </div>
             <div className="input-group">
               <label>סיסמה</label>
-              <input
-                type="password"
-                value={loginForm.password}
-                onChange={(e) => setLoginForm((c) => ({ ...c, password: e.target.value }))}
-                placeholder="••••••••"
-                required
-              />
+              <div className="password-wrapper">
+                <input
+                  type={showLoginPwd ? "text" : "password"}
+                  value={loginForm.password}
+                  onChange={(e) => setLoginForm((c) => ({ ...c, password: e.target.value }))}
+                  placeholder="••••••••"
+                  required
+                />
+                <button
+                  type="button"
+                  className="pwd-toggle"
+                  onClick={() => setShowLoginPwd((v) => !v)}
+                  aria-label={showLoginPwd ? "הסתר סיסמה" : "הצג סיסמה"}
+                >
+                  {showLoginPwd ? "🙈" : "👁"}
+                </button>
+              </div>
             </div>
             <button className="btn-primary" type="submit" disabled={isLoading}>
               {isLoading ? "מתחבר..." : "כניסה למערכת"}
@@ -110,7 +122,7 @@ export default function AuthPage() {
               <input
                 value={registerForm.name}
                 onChange={(e) => setRegisterForm((c) => ({ ...c, name: e.target.value }))}
-                placeholder="יעל כהן"
+                placeholder="שם מלא"
                 required
               />
             </div>
@@ -126,13 +138,23 @@ export default function AuthPage() {
             </div>
             <div className="input-group">
               <label>סיסמה</label>
-              <input
-                type="password"
-                value={registerForm.password}
-                onChange={(e) => setRegisterForm((c) => ({ ...c, password: e.target.value }))}
-                placeholder="לפחות 6 תווים"
-                required
-              />
+              <div className="password-wrapper">
+                <input
+                  type={showRegisterPwd ? "text" : "password"}
+                  value={registerForm.password}
+                  onChange={(e) => setRegisterForm((c) => ({ ...c, password: e.target.value }))}
+                  placeholder="לפחות 6 תווים"
+                  required
+                />
+                <button
+                  type="button"
+                  className="pwd-toggle"
+                  onClick={() => setShowRegisterPwd((v) => !v)}
+                  aria-label={showRegisterPwd ? "הסתר סיסמה" : "הצג סיסמה"}
+                >
+                  {showRegisterPwd ? "🙈" : "👁"}
+                </button>
+              </div>
             </div>
             <div className="input-group">
               <label>תפקיד</label>

@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { useAppStore } from "./store";
 import AuthPage from "./components/AuthPage";
 import NavBar from "./components/NavBar";
 import AppRoutes from "./components/AppRoutes";
+import AddWordModal from "./components/AddWordModal";
 
 function MessageStack() {
   const { statusMessage, errorMessage } = useAppStore();
@@ -16,6 +18,8 @@ function MessageStack() {
 
 export default function App() {
   const session = useAppStore((s) => s.session);
+  const isAdmin = useAppStore((s) => s.session?.role === "admin");
+  const [addWordOpen, setAddWordOpen] = useState(false);
 
   if (!session) {
     return <AuthPage />;
@@ -31,6 +35,22 @@ export default function App() {
           <AppRoutes />
         </div>
       </main>
+
+      {/* Global FAB — visible for regular users on all pages */}
+      {!isAdmin && (
+        <>
+          <button
+            className={`fab-add${addWordOpen ? " open" : ""}`}
+            onClick={() => setAddWordOpen((o) => !o)}
+            title={addWordOpen ? "סגור" : "הוסף מילה חדשה"}
+            aria-label="הוסף מילה חדשה"
+          >
+            {addWordOpen ? "✕" : "+"}
+          </button>
+          {addWordOpen && <AddWordModal onClose={() => setAddWordOpen(false)} />}
+        </>
+      )}
     </div>
   );
 }
+

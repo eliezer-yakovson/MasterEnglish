@@ -99,7 +99,7 @@ export function useBulkIngestWords() {
   const { setStatusMessage, setErrorMessage } = useStoreCallbacks();
 
   return useMutation({
-    mutationFn: (body: { lang: string; words: { word: string }[] }) =>
+    mutationFn: (body: { lang: string; input_lang?: string; words: { word: string }[] }) =>
       api.bulkIngestWords({ ...body, user_id: userId, source: "import" }),
     onSuccess: (result) => {
       void queryClient.invalidateQueries({ queryKey: ["library", userId] });
@@ -194,6 +194,17 @@ export function useEnrichAndCheck() {
         duplicate.exists ? "המילה כבר קיימת אצל המשתמש." : "המידע המועשר נטען בהצלחה.",
       );
     },
+    onError: (err: Error) => setErrorMessage(err.message),
+  });
+}
+
+export function useTranslateWord() {
+  const api = useApi();
+  const { setErrorMessage } = useStoreCallbacks();
+
+  return useMutation({
+    mutationFn: ({ word, sourceLang, targetLang }: { word: string; sourceLang: string; targetLang: string }) =>
+      api.translateWord(word, sourceLang, targetLang),
     onError: (err: Error) => setErrorMessage(err.message),
   });
 }

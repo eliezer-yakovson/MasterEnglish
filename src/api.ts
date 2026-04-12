@@ -111,6 +111,7 @@ export function createApiClient(config: Config, token?: string) {
       user_id: string;
       source: string;
       lang: string;
+      input_lang?: string;
       words: { word: string }[];
     }) {
       return request<{ created: number; duplicates: number }>(`${base}/api/words/bulk-ingest`, {
@@ -142,6 +143,13 @@ export function createApiClient(config: Config, token?: string) {
     enrichWord(word: string, lang = "he") {
       return request<EnrichedWord>(
         withQuery(`${base}/api/words/enrich`, { word, lang }),
+        { headers: { ...authHeaders } },
+      );
+    },
+
+    translateWord(word: string, sourceLang: string, targetLang: string) {
+      return request<{ translated: string }>(
+        withQuery(`${base}/api/words/translate`, { word, source_lang: sourceLang, target_lang: targetLang }),
         { headers: { ...authHeaders } },
       );
     },
